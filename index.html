@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Порівняння обміну в EUR</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Порівняння обмінників</p>
+          <h1>Подивись, де втрати при обміні найменші.</h1>
+          <p class="hero-text">
+            Введи суму в гривнях або доларах, додай курси з банків чи
+            обмінників і побачиш, скільки євро отримаєш та скільки втрачаєш,
+            якщо обрати гірший варіант.
+          </p>
+        </div>
+
+        <div class="summary-card" id="best-summary">
+          <p class="summary-label">Найкращий варіант</p>
+          <h2 id="best-place">Додай хоча б один обмінник</h2>
+          <p class="summary-value" id="best-eur">0.00 EUR</p>
+          <p class="summary-subtext" id="best-rate">Ефективний курс: -</p>
+          <div class="summary-diff-list">
+            <div class="summary-diff-row">
+              <span>Різниця між всіма місцями</span>
+              <strong id="summary-diff-eur">0.00 EUR</strong>
+            </div>
+            <div class="summary-diff-row">
+              <span>Те саме у валюті обміну</span>
+              <strong id="summary-diff-source">0.00 UAH</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="panel controls-panel">
+          <div class="panel-header">
+            <h2>Вхідні дані</h2>
+          </div>
+
+          <div class="sync-bar">
+            <p class="sync-status sync-idle" id="sync-status">
+              Хмарна синхронізація не налаштована
+            </p>
+            <div class="sync-actions">
+              <button id="sync-now" class="ghost-button" type="button">
+                Зберегти в хмару
+              </button>
+              <button id="reload-cloud" class="ghost-button" type="button">
+                Завантажити з хмари
+              </button>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Валюта, яку міняєш</span>
+            <select id="source-currency">
+              <option value="UAH">UAH → EUR</option>
+              <option value="USD">USD → EUR</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span id="amount-label">Сума в UAH</span>
+            <input id="amount-input" type="number" min="0" step="0.01" value="10000" />
+          </label>
+          <p class="panel-note amount-note" id="amount-note">
+            Введи суму, яку ти реально можеш обміняти.
+          </p>
+
+          <div class="places-header">
+            <div>
+              <h3>Точки обміну</h3>
+              <p id="rate-hint">Курс показує, скільки UAH ти платиш за 1 EUR.</p>
+            </div>
+            <button id="add-place" class="primary-button" type="button">
+              Додати місце
+            </button>
+          </div>
+
+          <div id="places-list" class="places-list"></div>
+        </div>
+
+        <div class="panel results-panel">
+          <div class="panel-header">
+            <h2>Порівняння</h2>
+            <p class="panel-note" id="results-note">
+              Для кожного місця видно, скільки EUR ти отримаєш і яка різниця з найдешевшим EUR.
+            </p>
+          </div>
+
+          <div id="results" class="results-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="place-template">
+      <article class="place-card">
+        <div class="place-top-row">
+          <label class="field grow">
+            <span>Назва місця</span>
+            <input class="place-name" type="text" placeholder="Наприклад: PrivatBank" />
+          </label>
+          <button class="icon-button remove-place" type="button" aria-label="Видалити місце">
+            x
+          </button>
+        </div>
+
+        <div class="place-grid">
+          <label class="field">
+            <span class="rate-label">Курс</span>
+            <input class="place-rate" type="number" min="0" step="0.0001" placeholder="47.15" />
+          </label>
+
+          <label class="field">
+            <span class="fee-label">Комісія в UAH</span>
+            <input class="place-fee" type="number" min="0" step="0.01" value="0" />
+          </label>
+        </div>
+      </article>
+    </template>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
